@@ -1,1 +1,117 @@
 /* TODO: style each page */
+
+/* Reset default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Body styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f8f9fa;
+}
+
+/* Header styles */
+.header {
+  background-color: #343a40;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+/* Navigation styles */
+.navbar {
+  background-color: #212529;
+  padding: 10px 20px;
+}
+
+.navbar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar ul li {
+  display: inline;
+  margin-right: 20px;
+}
+
+.navbar ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.navbar ul li a:hover {
+  color: #ffc107;
+}
+
+/* Main content styles */
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+/* Chatroom styles */
+.chatroom-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.message-container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.message {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+.message .nickname {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.message .text {
+  margin-bottom: 5px;
+}
+
+.message .timestamp {
+  color: #777;
+  font-size: 0.8em;
+}
+
+/* Form styles */
+.form-container {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.form-container input[type="text"],
+.form-container input[type="submit"] {
+  padding: 10px;
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+}
+
+.form-container input[type="submit"] {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.form-container input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
