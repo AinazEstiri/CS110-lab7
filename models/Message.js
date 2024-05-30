@@ -15,7 +15,7 @@ const messageSchema = new mongoose.Schema({
   },
   createdAt: {
     type: Date,
-    default: Date.now
+    default: Date.now // this doesnt work btw. this isnt a dynamic file
   }
 });
 
