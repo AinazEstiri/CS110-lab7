@@ -8,7 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 8080;
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/chatroomDB', {
+mongoose.connect('mongodb+srv://dbUser:cs110@main.gt87fte.mongodb.net/lab-7', {
   useNewUrlParser: true,
   useUnifiedTopology: true
 })

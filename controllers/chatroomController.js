@@ -7,13 +7,24 @@ const { generateRoomIdentifier } = require('../util/roomIdGenerator');
 // Homepage
 router.get('/', async (req, res) => {
   try {
-    const rooms = await Room.find();
-    res.render('home', { rooms });
+    const rooms = await Room.find().lean();
+    res.render('home', { chatRooms: rooms });
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
   }
 });
+
+// ChatRoom page
+router.get('/:roomName', async (req, res) => {
+  try {
+    const room = await Room.findOne({roomName: req.params.roomName});
+    res.render('room', { roomName: req.params.roomName });
+  } catch (e) {
+    console.error(e);
+    res.status(500).send('Server Error');
+  }
+})
 
 // Create chatroom
 router.post('/create', async (req, res) => {
@@ -32,7 +43,7 @@ router.post('/create', async (req, res) => {
 router.get('/:roomName/messages', async (req, res) => {
   try {
     const roomName = req.params.roomName;
-    const messages = await Message.find({ roomName }).sort({ createdAt: 1 });
+    const messages = await Message.find({ roomName: roomName }).sort({ createdAt: -1 });
     res.status(200).json(messages);
   } catch (err) {
     console.error(err);
@@ -46,7 +57,7 @@ router.post('/:roomName/newMessage', async (req, res) => {
     const room = req.params.roomName
     const newMessage = new Message({
       roomName: room,
-      nickName: body.nickName,
+      nickname: body.nickname,
       text: body.text,
       createdAt: Date.now()
     })

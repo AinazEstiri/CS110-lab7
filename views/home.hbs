@@ -1,0 +1,12 @@
+<h1 style="margin-bottom: 5px"> Chat Rooms </h1>
+<hr/>
+<ul style="margin-top: 15px; width: 100%; display: flex; justify-content: center">
+    {{#each chatRooms}}
+        <li style="list-style: none">
+            <div onclick="window.location.href = window.location.href + '{{roomName}}'" style="width: 500px; height: 75px; border: black solid 1px; display: flex; justify-content: center; background-color: lightblue">
+                <br style="margin-top: 25px"/>
+                {{roomName}}
+            </div>
+        </li>
+    {{/each}}
+</ul>

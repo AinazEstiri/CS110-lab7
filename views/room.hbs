@@ -1,0 +1,75 @@
+<div style="width: 80%; height: 100vh; padding: 20px; margin-left: auto; margin-right: auto; display: flex; justify-content: center; flex-direction: column">
+    <h1>Room: {{roomName}}</h1>
+    <div style="display: flex; flex-direction: row">
+        <h4>Nickname:  </h4>
+        <div id="nickname"></div>
+    </div>
+
+    <div id="messages"
+           style="display: flex;
+           flex-direction: column-reverse;
+           height: 90%; padding: 10px;
+           border: gray solid 1px;
+           border-radius: 20px"
+    ></div>
+    <div style="margin: 20px 0 20px 0; display: flex; flex-direction: column; width: 100%">
+        <label for="newMessageText">
+            Create New Message
+        </label>
+        <div style="width: 100%; height: fit-content; flex-direction: row; display: flex">
+            <textarea id="newMessageText" rows="4" cols="75"></textarea>
+            <button id="sendMessage" style="height: 100%; width: 60px; margin-left: 5px; align-self: center">Send</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    async function fetchMessages(roomName) {
+        const res = await fetch(`http://localhost:8080/${roomName}/messages`);
+        if (res.ok) {
+            const messagesBox = document.getElementById('messages');
+            messagesBox.innerHTML = ""
+            for (const message of (await res.json())) {
+                const newMessage = document.createElement('div');
+                newMessage.style.display = 'flex';
+                newMessage.style.flexDirection = 'row';
+
+                const nameDiv = document.createElement('div');
+                nameDiv.style.display = 'flex'
+                nameDiv.style.flexDirection = 'column';
+                nameDiv.innerHTML = `<div style='font-weight: bold'>${message.nickname}</div> <div style='font-size: 0.7em; color: gray'>${(new Date(message.createdAt)).toLocaleString()}</div>`;
+
+                const messageDiv = document.createElement('div');
+                messageDiv.innerText = message.text
+
+                newMessage.appendChild(nameDiv);
+                newMessage.appendChild(messageDiv);
+                messagesBox.appendChild(newMessage);
+            }
+        }
+    }
+
+    async function postMessage() {
+        await fetch('http://localhost:8080/' + window.location.href.split('/').toReversed()[0] + '/newMessage', {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ // other fields are supplied by server
+                nickname: document.getElementById('nickname').innerText,
+                text: document.getElementById('newMessageText').value
+            })
+        })
+        document.getElementById('newMessageText').value = ''
+        await fetchMessages(window.location.href.split('/').toReversed()[0]);
+    }
+    document.getElementById('sendMessage').addEventListener('click', postMessage)
+
+    document.addEventListener('DOMContentLoaded', async () => {
+        document.getElementById('nickname').innerText = prompt('Enter your nickname here')
+        await fetchMessages(window.location.href.split('/').toReversed()[0]);
+        setInterval(async () => {
+            await fetchMessages(window.location.href.split('/').toReversed()[0]);
+        }, 3000)
+    })
+</script>
