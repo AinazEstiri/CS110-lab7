@@ -32,7 +32,7 @@ router.post('/create', async (req, res) => {
     const { roomName } = req.body;
     const newRoom = new Room({ roomName: roomName || generateRoomIdentifier() });
     await newRoom.save();
-    res.redirect(200, '/');
+    res.sendStatus(200)
   } catch (err) {
     console.error(err);
     res.status(500).send('Server Error');
