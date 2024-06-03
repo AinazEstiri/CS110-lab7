@@ -1,12 +1,61 @@
-<h1 style="margin-bottom: 5px"> Chat Rooms </h1>
-<hr/>
-<ul style="margin-top: 15px; width: 100%; display: flex; justify-content: center">
-    {{#each chatRooms}}
-        <li style="list-style: none">
-            <div onclick="window.location.href = window.location.href + '{{roomName}}'" style="width: 500px; height: 75px; border: black solid 1px; display: flex; justify-content: center; background-color: lightblue">
-                <br style="margin-top: 25px"/>
-                {{roomName}}
-            </div>
-        </li>
-    {{/each}}
+<h1 style="margin-bottom: 5px">Chat Rooms</h1>
+<hr />
+<ul style="margin-top: 15px; width: 100%; display: flex; flex-direction: column; justify-content: center">
+  {{#each chatRooms}}
+    <li style="list-style: none; margin: 10px auto 10px auto">
+      <div
+        onclick="window.location.href = window.location.href + '{{roomName}}'"
+        style="width: 500px; height: 75px; border: black solid 1px; display: flex; justify-content: center; background-color: lightblue"
+      >
+        <br style="margin-top: 25px" />
+        {{roomName}}
+      </div>
+    </li>
+  {{/each}}
 </ul>
+
+<div style="margin-top: 20px; display: flex; justify-content: center">
+  <input
+    type="text"
+    id="newRoomName"
+    placeholder="Enter new room name"
+    style="padding: 10px; font-size: 16px"
+  />
+  <button
+    onclick="createChatRoom()"
+    style="padding: 10px 20px; font-size: 16px; background-color: lightgreen; border: none; cursor: pointer"
+  >
+    Create Room
+  </button>
+</div>
+
+<script>
+  function createChatRoom() {
+    const newRoomName = document.getElementById("newRoomName").value;
+    if (newRoomName.trim() === "") {
+      alert("Please enter a room name.");
+      return;
+    }
+
+    fetch("http://localhost:8080/create", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ roomName: newRoomName }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          alert("Chat room created successfully!");
+          // window.location.reload(); // Refresh the page to see the new room
+        } else {
+          alert("Failed to create chat room.");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("An error occurred while creating the chat room.");
+      });
+  }
+</script>
