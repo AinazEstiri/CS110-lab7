@@ -47,6 +47,7 @@
       .then((response) => {
           if (response.ok) {
               alert("Chat room created successfully!");
+              document.getElementById("newRoomName").value = ""
               window.location.reload(); // Refresh the page to see the new room
           } else {
               alert("Failed to create chat room.");
